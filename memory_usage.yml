@@ -1,0 +1,13 @@
+---
+- name: Check memory usage
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Run free -h
+      command: free -h
+      register: mem_usage
+
+    - name: Show memory usage
+      debug:
+        msg: "{{ inventory_hostname }} -> {{ mem_usage.stdout_lines }}"
