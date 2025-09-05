@@ -1,0 +1,13 @@
+---
+- name: Gather OS release info
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Show /etc/os-release
+      command: cat /etc/os-release
+      register: os_release
+
+    - name: Print OS info
+      debug:
+        msg: "{{ inventory_hostname }} -> {{ os_release.stdout_lines }}"
