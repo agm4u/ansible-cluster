@@ -1,16 +1,21 @@
 ---
-- name: Install and start Nginx
+- name: Fix apt and install nginx
   hosts: all
   become: yes
 
   tasks:
+    - name: Clean apt cache
+      command: apt-get clean
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+
+    - name: Fix broken packages
+      command: apt-get install -f -y
+
     - name: Install nginx
-      package:
+      apt:
         name: nginx
         state: present
-
-    - name: Start nginx
-      service:
-        name: nginx
-        state: started
-        enabled: yes
